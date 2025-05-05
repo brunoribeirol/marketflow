@@ -1,0 +1,34 @@
+services:
+  db:
+    image: mariadb:10.11
+    container_name: marketflow_db
+    restart: always
+    environment:
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    ports:
+      - "${DB_PORT}:3306"
+    volumes:
+      - ./docker/mariadb/schema.sql:/docker-entrypoint-initdb.d/1_schema.sql
+      - ./docker/mariadb/seed.sql:/docker-entrypoint-initdb.d/2_seed.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: marketflow_app
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./app:/app
+    env_file:
+      - .env

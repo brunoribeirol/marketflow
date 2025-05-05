@@ -32,8 +32,5 @@ htmlcov/
 # Jupyter notebooks (in case)
 .ipynb_checkpoints/
 
-# Ignore data dumps (if used in future)
-*.sql
-
 # Ignore compiled Cython debug symbols
 cython_debug/
