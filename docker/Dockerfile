@@ -16,4 +16,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY app/ /app
 
 # Set the default command to run the application
-CMD ["python", "main.py"]
+# CMD ["python", "main.py"]
+CMD ["tail", "-f", "/dev/null"]
