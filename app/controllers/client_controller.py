@@ -8,24 +8,24 @@ class ClientController:
     """
 
     @staticmethod
-    def create_client():
+    def create():
         """
         Handles user input to create a new client and displays the result.
         """
         try:
             name = input("Enter client name: ")
             email = input("Enter client email: ")
-            client = ClientService.create_client(name, email)
+            client = ClientService.create(name, email)
             print(f"\n✅ Client created successfully with ID {client.id}.\n")
         except ValueError as ve:
             print(f"\n❌ {ve}\n")
 
     @staticmethod
-    def list_all_clients():
+    def list_all():
         """
         Retrieves and displays all registered clients.
         """
-        clients = ClientService.get_all_clients()
+        clients = ClientService.list_all()
         if not clients:
             print("\n⚠️ No clients registered.\n")
             return
@@ -36,13 +36,13 @@ class ClientController:
         print()
 
     @staticmethod
-    def get_client_by_id():
+    def get_by_id():
         """
         Retrieves and displays a client by their ID.
         """
         try:
             client_id = int(input("Enter client ID: "))
-            client = ClientService.get_client_by_id(client_id)
+            client = ClientService.get_by_id(client_id)
             print(
                 f"\n🔍 Client found:\n- ID: {client.id}\n- Name: {client.name}\n- Email: {client.email}\n"
             )
@@ -52,7 +52,7 @@ class ClientController:
             print("\n❌ Invalid input. Please enter a numeric ID.\n")
 
     @staticmethod
-    def update_client():
+    def update():
         """
         Updates an existing client's data based on user input.
         """
@@ -60,7 +60,7 @@ class ClientController:
             client_id = int(input("Enter client ID to update: "))
             name = input("Enter new name: ")
             email = input("Enter new email: ")
-            updated = ClientService.update_client(client_id, name, email)
+            updated = ClientService.update(client_id, name, email)
             print(f"\n✅ Client updated successfully: {updated}\n")
         except ValueError as ve:
             print(f"\n❌ {ve}\n")
@@ -68,7 +68,7 @@ class ClientController:
             print("\n❌ Invalid input. Please enter valid values.\n")
 
     @staticmethod
-    def delete_client():
+    def delete():
         """
         Deletes a client based on their ID, with confirmation.
         """
@@ -81,7 +81,7 @@ class ClientController:
                 print("\n❎ Deletion canceled.\n")
                 return
 
-            ClientService.delete_client(client_id)
+            ClientService.delete(client_id)
             print(f"\n✅ Client deleted successfully.\n")
         except ValueError as ve:
             print(f"\n❌ {ve}\n")

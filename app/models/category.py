@@ -1,18 +1,18 @@
 class Category:
     """
-    Represents a product category in the MarketFlow system.
+    Represents a category in the MarketFlow system.
 
     Attributes:
         id (int): Unique identifier of the category.
-        name (str): Name of the category (e.g., 'Bakery', 'Fruits').
+        name (str): Name of the category.
     """
 
     def __init__(self, id: int = None, name: str = ""):
         """
-        Initializes a Category instance.
+        Initializes a Category instance with basic sanitization.
 
         Args:
-            id (int, optional): The unique ID of the category.
+            id (int, optional): The category's unique identifier.
             name (str): The name of the category.
         """
         self.id = id
@@ -42,7 +42,7 @@ class Category:
 
     def __repr__(self) -> str:
         """
-        Returns a string representation of the category.
+        Returns a developer-friendly string representation of the category.
 
         Returns:
             str: Representation showing id and name.

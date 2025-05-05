@@ -8,7 +8,7 @@ class ClientService:
     """
 
     @staticmethod
-    def create_client(name: str, email: str) -> Client:
+    def create(name: str, email: str) -> Client:
         """
         Creates a new client after validating input data.
 
@@ -36,7 +36,7 @@ class ClientService:
         return Client(id=client_id, name=name, email=email)
 
     @staticmethod
-    def get_client_by_id(client_id: int) -> Client:
+    def get_by_id(client_id: int) -> Client:
         """
         Retrieves a client by their ID.
 
@@ -55,17 +55,17 @@ class ClientService:
         return client
 
     @staticmethod
-    def get_all_clients() -> list[Client]:
+    def list_all() -> list[Client]:
         """
         Retrieves all registered clients.
 
         Returns:
             list[Client]: A list of all Client objects.
         """
-        return ClientRepository.get_all()
+        return ClientRepository.list_all()
 
     @staticmethod
-    def update_client(client_id: int, name: str, email: str) -> Client:
+    def update(client_id: int, name: str, email: str) -> Client:
         """
         Updates a client's information after validation.
 
@@ -103,7 +103,7 @@ class ClientService:
         return Client(id=client_id, name=name, email=email)
 
     @staticmethod
-    def delete_client(client_id: int) -> bool:
+    def delete(client_id: int) -> bool:
         """
         Deletes a client by ID.
 

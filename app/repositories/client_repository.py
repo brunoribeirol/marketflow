@@ -54,7 +54,7 @@ class ClientRepository:
         return Client.from_dict(result) if result else None
 
     @staticmethod
-    def get_all() -> list[Client]:
+    def list_all() -> list[Client]:
         """
         Retrieves all clients from the database.
 

@@ -3,12 +3,12 @@ from datetime import date
 
 class Order:
     """
-    Represents a product order made by a client in the MarketFlow system.
+    Represents an order in the MarketFlow system.
 
     Attributes:
         id (int): Unique identifier of the order.
-        client_id (int): ID of the client who placed the order.
-        product_id (int): ID of the product that was ordered.
+        client_id (int): ID of the client who made the order.
+        product_id (int): ID of the product being ordered.
         order_date (date): Date when the order was placed.
     """
 
@@ -23,10 +23,10 @@ class Order:
         Initializes an Order instance.
 
         Args:
-            id (int, optional): The order ID.
-            client_id (int): The ID of the client who made the order.
-            product_id (int): The ID of the product being ordered.
-            order_date (date, optional): The date of the order. Defaults to today.
+            id (int, optional): The unique identifier of the order.
+            client_id (int): The client's ID.
+            product_id (int): The product's ID.
+            order_date (date, optional): Date of the order (defaults to today).
         """
         self.id = id
         self.client_id = client_id
@@ -38,13 +38,13 @@ class Order:
         Converts the order instance into a dictionary.
 
         Returns:
-            dict: A dictionary with keys 'id', 'client_id', 'product_id', 'order_date'.
+            dict: A dictionary with keys 'id', 'client_id', 'product_id', and 'order_date'.
         """
         return {
             "id": self.id,
             "client_id": self.client_id,
             "product_id": self.product_id,
-            "order_date": str(self.order_date),
+            "order_date": self.order_date.isoformat(),
         }
 
     @classmethod
@@ -53,7 +53,7 @@ class Order:
         Creates an Order instance from a dictionary.
 
         Args:
-            data (dict): Dictionary containing order fields.
+            data (dict): A dictionary containing order fields.
 
         Returns:
             Order: A populated Order object.
@@ -62,19 +62,15 @@ class Order:
             id=data.get("id"),
             client_id=data.get("client_id"),
             product_id=data.get("product_id"),
-            order_date=(
-                date.fromisoformat(data.get("order_date"))
-                if data.get("order_date")
-                else None
-            ),
+            order_date=data.get("order_date", date.today()),
         )
 
     def __repr__(self) -> str:
         """
-        Returns a string representation of the order.
+        Returns a developer-friendly string representation of the order.
 
         Returns:
-            str: Representation showing id, client, product and date.
+            str: Representation showing all attributes.
         """
         return (
             f"<Order id={self.id} client_id={self.client_id} "
