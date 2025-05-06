@@ -1,5 +1,3 @@
-# Makefile for MarketFlow Project
-
 # Variables
 COMPOSE=docker-compose
 PYTHON=$(COMPOSE) exec app python
@@ -19,7 +17,7 @@ help:
 	@echo "  make test          → Run all tests with pytest"
 	@echo "  make lint          → Lint code using flake8"
 	@echo "  make format        → Format code using black"
-	@echo "  make db            → Open MariaDB terminal"
+	@echo "  make mariadb       → Open MariaDB terminal"
 	@echo ""
 
 # Build containers
@@ -68,6 +66,6 @@ format:
 	$(COMPOSE) exec app black app
 
 # Access MariaDB shell
-.PHONY: db
-db:
+.PHONY: mariadb
+mariadb:
 	$(COMPOSE) exec db mariadb -u user -ppass marketflow_db
