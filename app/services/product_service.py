@@ -81,8 +81,9 @@ class ProductService:
             ValueError: If the product does not exist or inputs are invalid.
         """
         product_id = validate_id(product_id, "Product ID")
-        existing = ProductRepository.get_by_id(product_id)
+        price = validate_positive_price(price)
 
+        existing = ProductRepository.get_by_id(product_id)
         if not existing:
             raise ValueError("Product not found.")
 
