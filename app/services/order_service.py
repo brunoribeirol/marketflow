@@ -3,6 +3,7 @@ from models.order import Order
 from repositories.order_repository import OrderRepository
 from repositories.client_repository import ClientRepository
 from repositories.product_repository import ProductRepository
+from utils.validators import validate_id
 
 
 class OrderService:
@@ -25,6 +26,9 @@ class OrderService:
         Raises:
             ValueError: If the client or product is not found.
         """
+        client_id = validate_id(client_id, "Client ID")
+        product_id = validate_id(product_id, "Product ID")
+
         if not ClientRepository.get_by_id(client_id):
             raise ValueError("Client not found.")
         if not ProductRepository.get_by_id(product_id):
@@ -52,6 +56,7 @@ class OrderService:
         Raises:
             ValueError: If the order is not found.
         """
+        order_id = validate_id(order_id, "Order ID")
         order = OrderRepository.get_by_id(order_id)
         if not order:
             raise ValueError("Order not found.")

@@ -1,5 +1,6 @@
 from models.client import Client
 from repositories.client_repository import ClientRepository
+from utils.validators import validate_name, validate_email, validate_id
 
 
 class ClientService:
@@ -22,13 +23,9 @@ class ClientService:
         Raises:
             ValueError: If the input data is invalid or email is already in use.
         """
-        name = name.strip()
-        email = email.strip().lower()
+        name = validate_name(name, "Client name")
+        email = validate_email(email)
 
-        if not name:
-            raise ValueError("Client name cannot be empty.")
-        if "@" not in email or "." not in email:
-            raise ValueError("Invalid email format.")
         if ClientRepository.email_exists(email):
             raise ValueError("Email is already registered.")
 
@@ -49,6 +46,7 @@ class ClientService:
         Raises:
             ValueError: If the client is not found.
         """
+        client_id = validate_id(client_id, "Client ID")
         client = ClientRepository.get_by_id(client_id)
         if not client:
             raise ValueError("Client not found.")
@@ -79,21 +77,17 @@ class ClientService:
         Raises:
             ValueError: If the client does not exist or inputs are invalid.
         """
-        email = email.strip().lower()
-
-        if "@" not in email or "." not in email:
-            raise ValueError("Invalid email format.")
+        client_id = validate_id(client_id, "Client ID")
+        email = validate_email(email)
 
         existing = ClientRepository.get_by_id(client_id)
         if not existing:
             raise ValueError("Client not found.")
 
-        # Only check for duplication if email changed
         if existing.email != email and ClientRepository.email_exists(email):
             raise ValueError("Email is already registered.")
 
-        updated = ClientRepository.update(client_id, email)
-        if not updated:
+        if not ClientRepository.update(client_id, email):
             raise RuntimeError("Failed to update client.")
 
         existing.email = email

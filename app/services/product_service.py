@@ -1,6 +1,7 @@
 from models.product import Product
 from repositories.product_repository import ProductRepository
 from repositories.category_repository import CategoryRepository
+from utils.validators import validate_name, validate_positive_price, validate_id
 
 
 class ProductService:
@@ -24,12 +25,10 @@ class ProductService:
         Raises:
             ValueError: If the input data is invalid.
         """
-        name = name.strip()
+        name = validate_name(name, "Product name")
+        price = validate_positive_price(price)
+        category_id = validate_id(category_id, "Category ID")
 
-        if not name:
-            raise ValueError("Product name cannot be empty.")
-        if price <= 0:
-            raise ValueError("Product price must be greater than zero.")
         if not CategoryRepository.get_by_id(category_id):
             raise ValueError("Category not found.")
 
@@ -50,6 +49,7 @@ class ProductService:
         Raises:
             ValueError: If the product is not found.
         """
+        product_id = validate_id(product_id, "Product ID")
         product = ProductRepository.get_by_id(product_id)
         if not product:
             raise ValueError("Product not found.")
@@ -80,16 +80,14 @@ class ProductService:
         Raises:
             ValueError: If the product does not exist or inputs are invalid.
         """
-
-        if price <= 0:
-            raise ValueError("Product price must be greater than zero.")
-
+        product_id = validate_id(product_id, "Product ID")
+        name = validate_name(name, "Product name")
         existing = ProductRepository.get_by_id(product_id)
+        
         if not existing:
             raise ValueError("Product not found.")
 
-        updated = ProductRepository.update(product_id, price)
-        if not updated:
+        if not ProductRepository.update(product_id, price):
             raise RuntimeError("Failed to update product.")
 
         existing.price = price
@@ -109,11 +107,7 @@ class ProductService:
         Raises:
             ValueError: If the product does not exist.
         """
+        product_id = validate_id(product_id, "Product ID")
         if not ProductRepository.get_by_id(product_id):
             raise ValueError("Product not found.")
-
-        deleted = ProductRepository.delete(product_id)
-        if not deleted:
-            raise RuntimeError("Failed to delete product.")
-
-        return True
+        return ProductRepository.delete(product_id)

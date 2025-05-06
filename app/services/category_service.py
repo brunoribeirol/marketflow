@@ -1,5 +1,6 @@
 from models.category import Category
 from repositories.category_repository import CategoryRepository
+from utils.validators import validate_name, validate_id
 
 
 class CategoryService:
@@ -21,10 +22,8 @@ class CategoryService:
         Raises:
             ValueError: If the name is invalid or already in use.
         """
-        name = name.strip()
+        name = validate_name(name, "Category name")
 
-        if not name:
-            raise ValueError("Category name cannot be empty.")
         if CategoryRepository.name_exists(name):
             raise ValueError("Category name is already in use.")
 
@@ -45,6 +44,7 @@ class CategoryService:
         Raises:
             ValueError: If the category is not found.
         """
+        category_id = validate_id(category_id, "Category ID")
         category = CategoryRepository.get_by_id(category_id)
         if not category:
             raise ValueError("Category not found.")
@@ -75,9 +75,8 @@ class CategoryService:
         Raises:
             ValueError: If inputs are invalid or name already exists.
         """
-        name = name.strip()
-        if not name:
-            raise ValueError("Category name cannot be empty.")
+        category_id = validate_id(category_id, "Category ID")
+        name = validate_name(name, "Category name")
 
         existing = CategoryRepository.get_by_id(category_id)
         if not existing:
@@ -86,8 +85,7 @@ class CategoryService:
         if existing.name != name and CategoryRepository.name_exists(name):
             raise ValueError("Category name is already in use.")
 
-        updated = CategoryRepository.update(category_id, name)
-        if not updated:
+        if not CategoryRepository.update(category_id, name):
             raise RuntimeError("Failed to update category.")
 
         existing.name = name
@@ -107,11 +105,7 @@ class CategoryService:
         Raises:
             ValueError: If the category is not found.
         """
+        category_id = validate_id(category_id, "Category ID")
         if not CategoryRepository.get_by_id(category_id):
             raise ValueError("Category not found.")
-
-        deleted = CategoryRepository.delete(category_id)
-        if not deleted:
-            raise RuntimeError("Failed to delete category.")
-
-        return True
+        return CategoryRepository.delete(category_id)
