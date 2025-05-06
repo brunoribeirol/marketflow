@@ -17,7 +17,7 @@ GET_ALL_PRODUCTS = """
 
 UPDATE_PRODUCT = """
     UPDATE products
-    SET name = %s, price = %s, category_id = %s
+    SET price = %s
     WHERE id = %s
 """
 

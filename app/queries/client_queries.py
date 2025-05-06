@@ -17,12 +17,7 @@ GET_ALL_CLIENTS = """
 
 UPDATE_CLIENT = """
     UPDATE clients
-    SET name = %s, email = %s
-    WHERE id = %s
-"""
-
-DELETE_CLIENT = """
-    DELETE FROM clients
+    SET email = %s
     WHERE id = %s
 """
 

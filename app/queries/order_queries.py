@@ -1,5 +1,3 @@
-# queries/order_queries.py
-
 CREATE_ORDER = """
     INSERT INTO orders (client_id, product_id, order_date)
     VALUES (%s, %s, %s)
@@ -23,11 +21,6 @@ GET_ALL_ORDERS = """
     JOIN clients c ON o.client_id = c.id
     JOIN products p ON o.product_id = p.id
     ORDER BY o.id
-"""
-
-DELETE_ORDER = """
-    DELETE FROM orders
-    WHERE id = %s
 """
 
 CHECK_ORDER_EXISTS = """
