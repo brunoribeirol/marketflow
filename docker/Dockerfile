@@ -20,5 +20,4 @@ COPY tests/ /app/tests
 COPY app/main.py /app/main.py
 
 # Set the default command to run the application
-# CMD ["python", "main.py"]
 CMD ["tail", "-f", "/dev/null"]
