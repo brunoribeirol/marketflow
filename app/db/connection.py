@@ -15,7 +15,9 @@ def get_db_connection(retries=30, delay=1):
                 print("✅ Successfully connected to the database.")
                 return connection
         except Error as e:
-            print(f"⏳ Attempt {attempt + 1}/{retries}: waiting for the database...")
+            print(
+                f"⏳ Attempt {attempt + 1}/{retries}: waiting for the database... (Error: {e})"
+            )
             time.sleep(delay)
 
     raise ConnectionError(

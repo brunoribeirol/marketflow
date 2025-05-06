@@ -1,5 +1,4 @@
 from services.client_service import ClientService
-from models.client import Client
 
 
 class ClientController:
@@ -82,7 +81,7 @@ class ClientController:
                 return
 
             ClientService.delete(client_id)
-            print(f"\n✅ Client deleted successfully.\n")
+            print("\n✅ Client deleted successfully.\n")
         except ValueError as ve:
             print(f"\n❌ {ve}\n")
         except Exception:

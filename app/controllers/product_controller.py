@@ -1,5 +1,4 @@
 from services.product_service import ProductService
-from models.product import Product
 
 
 class ProductController:
@@ -102,7 +101,7 @@ class ProductController:
                 return
 
             ProductService.delete(product_id)
-            print(f"\n✅ Product deleted successfully.\n")
+            print("\n✅ Product deleted successfully.\n")
         except ValueError as ve:
             print(f"\n❌ {ve}\n")
         except Exception:

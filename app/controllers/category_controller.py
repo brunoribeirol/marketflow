@@ -1,5 +1,4 @@
 from services.category_service import CategoryService
-from models.category import Category
 
 
 class CategoryController:

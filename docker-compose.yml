@@ -29,6 +29,8 @@ services:
       db:
         condition: service_healthy
     volumes:
-      - ./app:/app
+      # - ./app:/app
+      - ./app:/app/app
+      - ./tests:/app/tests
     env_file:
       - .env
