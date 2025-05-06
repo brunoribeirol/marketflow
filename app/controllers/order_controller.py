@@ -1,4 +1,7 @@
+from app.utils.entity_display import list_entities
 from services.order_service import OrderService
+from services.client_service import ClientService
+from services.product_service import ProductService
 
 
 class OrderController:
@@ -9,10 +12,14 @@ class OrderController:
     @staticmethod
     def create():
         try:
+            list_entities(ClientService, "client")
+            list_entities(ProductService, "product")
             client_id = int(input("Enter client ID: "))
             product_id = int(input("Enter product ID: "))
             order = OrderService.create(client_id, product_id)
-            print(f"\n✅ Order created successfully with ID {order.id}.\n")
+            print(
+                f"\n✅ Order created successfully:\n- ID: {order.id}\n- Client ID: {order.client_id}\n- Prodduct ID: {order.product_id}\n- Date: {order.order_date}\n"
+            )
         except ValueError as ve:
             print(f"\n❌ {ve}\n")
         except Exception:
@@ -26,15 +33,17 @@ class OrderController:
             return
 
         print("\n📦 Registered Orders:")
+        print()
         for order in orders:
             print(
-                f"- ID: {order.id}, Client ID: {order.client_id}, Product ID: {order.product_id}, Date: {order.order_date}"
+                f"- ID: {order.id}\n- Client ID: {order.client_id}\n- Product ID: {order.product_id}\n- Date: {order.order_date}\n"
             )
         print()
 
     @staticmethod
     def get_by_id():
         try:
+            list_entities(OrderService, "order")
             order_id = int(input("Enter order ID: "))
             order = OrderService.get_by_id(order_id)
             print(
@@ -44,23 +53,3 @@ class OrderController:
             print(f"\n❌ {ve}\n")
         except Exception:
             print("\n❌ Invalid input. Please enter a numeric ID.\n")
-
-    @staticmethod
-    def delete():
-        try:
-            order_id = int(input("Enter order ID to delete: "))
-            confirm = (
-                input(f"Are you sure you want to delete order ID {order_id}? (y/n): ")
-                .strip()
-                .lower()
-            )
-            if confirm != "y":
-                print("\n❎ Deletion cancelled.\n")
-                return
-
-            OrderService.delete(order_id)
-            print("\n✅ Order deleted successfully.\n")
-        except ValueError as ve:
-            print(f"\n❌ {ve}\n")
-        except Exception:
-            print("\n❌ Invalid input.\n")

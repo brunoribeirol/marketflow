@@ -1,4 +1,5 @@
 from services.client_service import ClientService
+from app.utils.entity_display import list_entities
 
 
 class ClientController:
@@ -15,7 +16,9 @@ class ClientController:
             name = input("Enter client name: ")
             email = input("Enter client email: ")
             client = ClientService.create(name, email)
-            print(f"\n✅ Client created successfully with ID {client.id}.\n")
+            print(
+                f"\n✅ Client created successfully:\n- ID: {client.id}\n- Name: {client.name}\n- Email: {client.email}\n"
+            )
         except ValueError as ve:
             print(f"\n❌ {ve}\n")
 
@@ -30,9 +33,11 @@ class ClientController:
             return
 
         print("\n📋 Registered Clients:")
-        for client in clients:
-            print(f"- ID: {client.id}, Name: {client.name}, Email: {client.email}")
         print()
+        for client in clients:
+            print(
+                f"- ID: {client.id}\n- Name: {client.name}\n- Email: {client.email}\n"
+            )
 
     @staticmethod
     def get_by_id():
@@ -40,6 +45,7 @@ class ClientController:
         Retrieves and displays a client by their ID.
         """
         try:
+            list_entities(ClientService, "client")
             client_id = int(input("Enter client ID: "))
             client = ClientService.get_by_id(client_id)
             print(
@@ -56,33 +62,14 @@ class ClientController:
         Updates an existing client's data based on user input.
         """
         try:
+            list_entities(ClientService, "client")
             client_id = int(input("Enter client ID to update: "))
-            name = input("Enter new name: ")
             email = input("Enter new email: ")
-            updated = ClientService.update(client_id, name, email)
-            print(f"\n✅ Client updated successfully: {updated}\n")
+            updated = ClientService.update(client_id, email)
+            print(
+                f"\n✅ Client updated successfully:\n- ID: {updated.id}\n- Name: {updated.name}\n- Email: {updated.email}\n"
+            )
         except ValueError as ve:
             print(f"\n❌ {ve}\n")
         except Exception:
             print("\n❌ Invalid input. Please enter valid values.\n")
-
-    @staticmethod
-    def delete():
-        """
-        Deletes a client based on their ID, with confirmation.
-        """
-        try:
-            client_id = int(input("Enter client ID to delete: "))
-            confirmed = input(
-                f"Are you sure you want to delete client ID {client_id}? (y/n): "
-            ).lower()
-            if confirmed != "y":
-                print("\n❎ Deletion canceled.\n")
-                return
-
-            ClientService.delete(client_id)
-            print("\n✅ Client deleted successfully.\n")
-        except ValueError as ve:
-            print(f"\n❌ {ve}\n")
-        except Exception:
-            print("\n❌ Invalid input. Please enter a numeric ID.\n")

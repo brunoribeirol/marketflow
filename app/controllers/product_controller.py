@@ -1,3 +1,4 @@
+from app.utils.entity_display import list_entities
 from services.product_service import ProductService
 
 
@@ -29,7 +30,9 @@ class ProductController:
             category_id = int(input("Enter category ID: "))
 
             product = ProductService.create(name, price, category_id)
-            print(f"\n✅ Product created successfully with ID {product.id}.\n")
+            print(
+                f"\n✅ Product created successfully:\n- ID: {product.id}\n- Name: {product.name}\n- Price: {product.price}\n- Category ID: {product.category_id}\n"
+            )
         except ValueError as ve:
             print(f"\n❌ {ve}\n")
         except Exception as e:
@@ -46,11 +49,11 @@ class ProductController:
             return
 
         print("\n📦 Registered Products:")
-        for p in products:
-            print(
-                f"- ID: {p.id}, Name: {p.name}, Price: ${p.price:.2f}, Category ID: {p.category_id}"
-            )
         print()
+        for product in products:
+            print(
+                f"- ID: {product.id}\n- Name: {product.name}\n- Price: ${product.price:.2f}\n- Category ID: {product.category_id}\n"
+            )
 
     @staticmethod
     def get_by_id():
@@ -58,6 +61,7 @@ class ProductController:
         Retrieves and displays a product by its ID.
         """
         try:
+            list_entities(ProductService, "product")
             product_id = int(input("Enter product ID: "))
             product = ProductService.get_by_id(product_id)
             print(
@@ -74,13 +78,14 @@ class ProductController:
         Updates an existing product's data based on user input.
         """
         try:
+            list_entities(ProductService, "product")
             product_id = int(input("Enter product ID to update: "))
-            name = input("Enter new name: ")
             price = float(input("Enter new price: "))
-            category_id = int(input("Enter new category ID: "))
 
-            updated = ProductService.update(product_id, name, price, category_id)
-            print(f"\n✅ Product updated successfully: {updated}\n")
+            updated = ProductService.update(product_id, price)
+            print(
+                f"\n✅ Product updated successfully:\n- ID: {updated.id}\n- Name: {updated.name}\n- Price: ${updated.price:.2f}\n- Category ID: {updated.category_id}\n"
+            )
         except ValueError as ve:
             print(f"\n❌ {ve}\n")
         except Exception as e:
@@ -92,6 +97,7 @@ class ProductController:
         Deletes a product based on its ID, with confirmation.
         """
         try:
+            list_entities(ProductService, "product")
             product_id = int(input("Enter product ID to delete: "))
             confirmed = input(
                 f"Are you sure you want to delete product ID {product_id}? (y/n): "
