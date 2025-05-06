@@ -20,7 +20,6 @@ def client_menu():
     print("2. List All Clients")
     print("3. Get Client by ID")
     print("4. Update Client")
-    print("5. Delete Client")
     print("0. Back to Main Menu")
     print("=============================")
 
@@ -52,7 +51,6 @@ def order_menu():
     print("1. Create Order")
     print("2. List All Orders")
     print("3. Get Order by ID")
-    print("4. Delete Order")
     print("0. Back to Main Menu")
     print("=============================")
 
