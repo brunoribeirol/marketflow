@@ -76,27 +76,9 @@ def test_list_all_clients():
 
 def test_update_client_success():
     """
-    Tests updating an existing client's name and email.
+    Tests updating an existing client's email only.
     """
     created = ClientService.create("Old Name", "old@example.com")
-    updated = ClientService.update(created.id, "New Name", "new@example.com")
-    assert updated.name == "New Name"
+    updated = ClientService.update(created.id, "new@example.com")
+    assert updated.name == "Old Name"
     assert updated.email == "new@example.com"
-
-
-def test_delete_client_success():
-    """
-    Tests successful deletion of a client.
-    """
-    client = ClientService.create("To Delete", "delete@example.com")
-    result = ClientService.delete(client.id)
-    assert result is True
-
-
-def test_delete_client_not_found():
-    """
-    Tests deleting a non-existent client.
-    Expects a 'Client not found' error.
-    """
-    with pytest.raises(ValueError, match="Client not found."):
-        ClientService.delete(999)

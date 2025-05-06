@@ -90,23 +90,24 @@ def test_list_all_products():
 
 def test_update_product_success():
     """
-    Tests successful update of a product with valid data.
+    Tests successful update of a product's price.
     """
     category = CategoryService.create("Dairy")
     created = ProductService.create("Milk", 4.0, category.id)
-    updated = ProductService.update(created.id, "Skim Milk", 4.5, category.id)
-    assert updated.name == "Skim Milk"
+    updated = ProductService.update(created.id, 4.5)
+    assert updated.name == "Milk"
     assert updated.price == 4.5
+    assert updated.category_id == category.id
 
 
-def test_update_product_invalid_category():
+def test_update_product_invalid_price():
     """
-    Tests product update with an invalid category ID, expecting an error.
+    Tests updating a product with an invalid price.
     """
     category = CategoryService.create("Pantry")
     product = ProductService.create("Sugar", 2.0, category.id)
-    with pytest.raises(ValueError, match="Category not found."):
-        ProductService.update(product.id, "Sugar", 2.0, 999)
+    with pytest.raises(ValueError, match="Product price must be greater than zero."):
+        ProductService.update(product.id, -1.0)
 
 
 def test_delete_product_success():

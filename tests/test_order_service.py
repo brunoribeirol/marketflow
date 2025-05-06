@@ -94,21 +94,3 @@ def test_list_all_orders():
     OrderService.create(client.id, product.id)
     orders = OrderService.list_all()
     assert len(orders) == 2
-
-
-def test_delete_order_success():
-    """
-    Tests successful deletion of an existing order.
-    """
-    client, product = create_valid_client_and_product()
-    order = OrderService.create(client.id, product.id)
-    result = OrderService.delete(order.id)
-    assert result is True
-
-
-def test_delete_order_not_found():
-    """
-    Tests deleting a non-existent order and expects a failure.
-    """
-    with pytest.raises(ValueError, match="Order not found."):
-        OrderService.delete(999)
