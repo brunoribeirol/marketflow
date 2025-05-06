@@ -66,15 +66,13 @@ class ProductService:
         return ProductRepository.list_all()
 
     @staticmethod
-    def update(product_id: int, name: str, price: float, category_id: int) -> Product:
+    def update(product_id: int, price: float) -> Product:
         """
         Updates a product's information after validation.
 
         Args:
             product_id (int): The ID of the product to update.
-            name (str): New name.
             price (float): New price.
-            category_id (int): New category ID.
 
         Returns:
             Product: The updated Product object.
@@ -82,10 +80,7 @@ class ProductService:
         Raises:
             ValueError: If the product does not exist or inputs are invalid.
         """
-        name = name.strip()
 
-        if not name:
-            raise ValueError("Product name cannot be empty.")
         if price <= 0:
             raise ValueError("Product price must be greater than zero.")
 
@@ -93,14 +88,12 @@ class ProductService:
         if not existing:
             raise ValueError("Product not found.")
 
-        if not CategoryRepository.get_by_id(category_id):
-            raise ValueError("Category not found.")
-
-        updated = ProductRepository.update(product_id, name, price, category_id)
+        updated = ProductRepository.update(product_id, price)
         if not updated:
             raise RuntimeError("Failed to update product.")
 
-        return Product(id=product_id, name=name, price=price, category_id=category_id)
+        existing.price = price
+        return existing
 
     @staticmethod
     def delete(product_id: int) -> bool:

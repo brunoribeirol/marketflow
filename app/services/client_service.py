@@ -65,13 +65,12 @@ class ClientService:
         return ClientRepository.list_all()
 
     @staticmethod
-    def update(client_id: int, name: str, email: str) -> Client:
+    def update(client_id: int, email: str) -> Client:
         """
         Updates a client's information after validation.
 
         Args:
             client_id (int): The ID of the client to update.
-            name (str): New name.
             email (str): New email.
 
         Returns:
@@ -80,11 +79,8 @@ class ClientService:
         Raises:
             ValueError: If the client does not exist or inputs are invalid.
         """
-        name = name.strip()
         email = email.strip().lower()
 
-        if not name:
-            raise ValueError("Client name cannot be empty.")
         if "@" not in email or "." not in email:
             raise ValueError("Invalid email format.")
 
@@ -96,31 +92,9 @@ class ClientService:
         if existing.email != email and ClientRepository.email_exists(email):
             raise ValueError("Email is already registered.")
 
-        updated = ClientRepository.update(client_id, name, email)
+        updated = ClientRepository.update(client_id, email)
         if not updated:
             raise RuntimeError("Failed to update client.")
 
-        return Client(id=client_id, name=name, email=email)
-
-    @staticmethod
-    def delete(client_id: int) -> bool:
-        """
-        Deletes a client by ID.
-
-        Args:
-            client_id (int): The ID of the client to delete.
-
-        Returns:
-            bool: True if deletion was successful.
-
-        Raises:
-            ValueError: If the client does not exist.
-        """
-        if not ClientRepository.get_by_id(client_id):
-            raise ValueError("Client not found.")
-
-        deleted = ClientRepository.delete(client_id)
-        if not deleted:
-            raise RuntimeError("Failed to delete client.")
-
-        return True
+        existing.email = email
+        return existing

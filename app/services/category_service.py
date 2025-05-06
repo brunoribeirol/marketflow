@@ -90,7 +90,8 @@ class CategoryService:
         if not updated:
             raise RuntimeError("Failed to update category.")
 
-        return Category(id=category_id, name=name)
+        existing.name = name
+        return existing
 
     @staticmethod
     def delete(category_id: int) -> bool:

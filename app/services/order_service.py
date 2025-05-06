@@ -65,27 +65,4 @@ class OrderService:
         Returns:
             list[Order]: A list of all Order objects.
         """
-        return OrderRepository.get_all()
-
-    @staticmethod
-    def delete(order_id: int) -> bool:
-        """
-        Deletes an order by ID.
-
-        Args:
-            order_id (int): The ID of the order to delete.
-
-        Returns:
-            bool: True if deletion was successful.
-
-        Raises:
-            ValueError: If the order does not exist.
-        """
-        if not OrderRepository.get_by_id(order_id):
-            raise ValueError("Order not found.")
-
-        deleted = OrderRepository.delete(order_id)
-        if not deleted:
-            raise RuntimeError("Failed to delete order.")
-
-        return True
+        return OrderRepository.list_all()
