@@ -55,7 +55,7 @@ class OrderRepository:
         return Order.from_dict(result) if result else None
 
     @staticmethod
-    def get_all() -> list[Order]:
+    def list_all() -> list[Order]:
         """
         Retrieves all orders from the database.
 
@@ -72,25 +72,3 @@ class OrderRepository:
         close_connection(conn)
 
         return [Order.from_dict(row) for row in results]
-
-    @staticmethod
-    def delete(order_id: int) -> bool:
-        """
-        Deletes an order from the database by ID.
-
-        Args:
-            order_id (int): The ID of the order to delete.
-
-        Returns:
-            bool: True if deletion was successful, False otherwise.
-        """
-        conn = get_db_connection()
-        cursor = conn.cursor()
-
-        cursor.execute(q.DELETE_ORDER, (order_id,))
-        conn.commit()
-        deleted = cursor.rowcount > 0
-
-        cursor.close()
-        close_connection(conn)
-        return deleted

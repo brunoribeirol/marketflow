@@ -73,13 +73,12 @@ class ClientRepository:
         return [Client.from_dict(row) for row in results]
 
     @staticmethod
-    def update(client_id: int, name: str, email: str) -> bool:
+    def update(client_id: int, email: str) -> bool:
         """
         Updates a client's information by ID.
 
         Args:
             client_id (int): The ID of the client to update.
-            name (str): The new name.
             email (str): The new email.
 
         Returns:
@@ -88,35 +87,13 @@ class ClientRepository:
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        cursor.execute(q.UPDATE_CLIENT, (name, email, client_id))
+        cursor.execute(q.UPDATE_CLIENT, (email, client_id))
         conn.commit()
         updated = cursor.rowcount > 0
 
         cursor.close()
         close_connection(conn)
         return updated
-
-    @staticmethod
-    def delete(client_id: int) -> bool:
-        """
-        Deletes a client by ID.
-
-        Args:
-            client_id (int): The ID of the client to delete.
-
-        Returns:
-            bool: True if the deletion was successful, False otherwise.
-        """
-        conn = get_db_connection()
-        cursor = conn.cursor()
-
-        cursor.execute(q.DELETE_CLIENT, (client_id,))
-        conn.commit()
-        deleted = cursor.rowcount > 0
-
-        cursor.close()
-        close_connection(conn)
-        return deleted
 
     @staticmethod
     def email_exists(email: str) -> bool:

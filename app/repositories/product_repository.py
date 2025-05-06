@@ -72,7 +72,7 @@ class ProductRepository:
         return [Product.from_dict(row) for row in results]
 
     @staticmethod
-    def update(product_id: int, name: str, price: float, category_id: int) -> bool:
+    def update(product_id: int, price: float) -> bool:
         """
         Updates a product's data.
 
@@ -88,7 +88,7 @@ class ProductRepository:
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        cursor.execute(q.UPDATE_PRODUCT, (name, price, category_id, product_id))
+        cursor.execute(q.UPDATE_PRODUCT, (price, product_id))
         conn.commit()
         updated = cursor.rowcount > 0
 
