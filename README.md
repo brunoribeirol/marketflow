@@ -98,12 +98,6 @@ Run all tests using:
 make test
 ```
 
-Run smoke test to check DB connection:
-
-```bash
-make smoke
-```
-
 ---
 
 ## 🧰 Utilities
