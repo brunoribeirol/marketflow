@@ -12,7 +12,7 @@ def get_db_connection(retries=30, delay=1):
         try:
             connection = mysql.connector.connect(**DB_CONFIG)
             if connection.is_connected():
-                print("✅ Successfully connected to the database.")
+                # print("✅ Successfully connected to the database.")
                 return connection
         except Error as e:
             print(
@@ -31,4 +31,4 @@ def close_connection(connection):
     """
     if connection and connection.is_connected():
         connection.close()
-        print("🔒 Database connection closed.")
+        # print("🔒 Database connection closed.")

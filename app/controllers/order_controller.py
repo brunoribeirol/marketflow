@@ -17,9 +17,17 @@ class OrderController:
             client_id = int(input("Enter client ID: "))
             product_id = int(input("Enter product ID: "))
             order = OrderService.create(client_id, product_id)
+            client = ClientService.get_by_id(order.client_id)
+            product = ProductService.get_by_id(order.product_id)
+
             print(
-                f"\n✅ Order created successfully:\n- ID: {order.id}\n- Client ID: {order.client_id}\n- Prodduct ID: {order.product_id}\n- Date: {order.order_date}\n"
+                f"\n✅ Order created successfully:\n"
+                f"- ID: {order.id}\n"
+                f"- Client: {client.name} ({client.email})\n"
+                f"- Product: {product.name} - R${product.price:.2f}\n"
+                f"- Date: {order.order_date}\n"
             )
+
         except ValueError as ve:
             print(f"\n❌ {ve}\n")
         except Exception:
@@ -35,8 +43,13 @@ class OrderController:
         print("\n📦 Registered Orders:")
         print()
         for order in orders:
+            client = ClientService.get_by_id(order.client_id)
+            product = ProductService.get_by_id(order.product_id)
             print(
-                f"- ID: {order.id}\n- Client ID: {order.client_id}\n- Product ID: {order.product_id}\n- Date: {order.order_date}\n"
+                f"- ID: {order.id}\n"
+                f"- Client: {client.name} ({client.email})\n"
+                f"- Product: {product.name} - R${product.price:.2f}\n"
+                f"- Date: {order.order_date}\n"
             )
         print()
 
@@ -46,8 +59,15 @@ class OrderController:
             list_entities(OrderService, "order")
             order_id = int(input("Enter order ID: "))
             order = OrderService.get_by_id(order_id)
+            client = ClientService.get_by_id(order.client_id)
+            product = ProductService.get_by_id(order.product_id)
+
             print(
-                f"\n🔍 Order found:\n- ID: {order.id}\n- Client ID: {order.client_id}\n- Product ID: {order.product_id}\n- Date: {order.order_date}\n"
+                f"\n🔍 Order found:\n"
+                f"- ID: {order.id}\n"
+                f"- Client: {client.name} ({client.email})\n"
+                f"- Product: {product.name} - R${product.price:.2f}\n"
+                f"- Date: {order.order_date}\n"
             )
         except ValueError as ve:
             print(f"\n❌ {ve}\n")

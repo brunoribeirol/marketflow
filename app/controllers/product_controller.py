@@ -1,5 +1,6 @@
 from app.utils.entity_display import list_entities
 from services.product_service import ProductService
+from services.category_service import CategoryService
 
 
 class ProductController:
@@ -50,9 +51,15 @@ class ProductController:
 
         print("\n📦 Registered Products:")
         print()
+
+        categories = {c.id: c.name for c in CategoryService.list_all()}
         for product in products:
+            category_name = categories.get(product.category_id, "Unknown")
             print(
-                f"- ID: {product.id}\n- Name: {product.name}\n- Price: ${product.price:.2f}\n- Category ID: {product.category_id}\n"
+                f"- ID: {product.id}\n"
+                f"- Name: {product.name}\n"
+                f"- Price: ${product.price:.2f}\n"
+                f"- Category: {category_name}\n"
             )
 
     @staticmethod

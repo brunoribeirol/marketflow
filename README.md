@@ -57,7 +57,7 @@ marketflow/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/ianbnunes/marketflow.git
+git clone https://github.com/brunoribeirol/marketflow.git
 cd marketflow
 ```
 
@@ -69,6 +69,7 @@ DB_PORT=3306
 DB_USER=user
 DB_PASSWORD=pass
 DB_NAME=marketflow_db
+DB_ROOT_PASSWORD=
 ```
 
 ---
