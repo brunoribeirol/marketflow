@@ -1,5 +1,5 @@
 import inflect
-
+from services.category_service import CategoryService
 
 def list_entities(service, entity_name):
     """
@@ -21,15 +21,17 @@ def list_entities(service, entity_name):
 
         for item in items:
             attributes = vars(item)
-            print(
-                "\n"
-                + "\n".join(
-                    [
-                        f"- {key.capitalize()}: {format_value(key, value)}"
-                        for key, value in attributes.items()
-                    ]
-                )
-            )
+
+            # Se for produto, carrega dicionário {id: name} das categorias
+            category_names = {}
+            if entity_name == "product":
+                category_names = {c.id: c.name for c in CategoryService.list_all()}
+
+            print("\n" + "\n".join([
+                f"- {key.capitalize()}: {category_names[value] if entity_name == 'product' and key == 'category_id' else format_value(key, value)}"
+                for key, value in attributes.items()
+            ]))
+
         print()
     except Exception as e:
         print(f"❌ Failed to load {entity_name}s: {e}")
