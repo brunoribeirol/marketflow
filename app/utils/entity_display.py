@@ -28,9 +28,10 @@ def list_entities(service, entity_name):
                 category_names = {c.id: c.name for c in CategoryService.list_all()}
 
             print("\n" + "\n".join([
-                f"- {key.capitalize()}: {category_names[value] if entity_name == 'product' and key == 'category_id' else format_value(key, value)}"
-                for key, value in attributes.items()
-            ]))
+            f"- {'Category' if key == 'category_id' and entity_name == 'product' else key.capitalize()}: "
+            f"{category_names[value] if key == 'category_id' and entity_name == 'product' else format_value(key, value)}"
+            for key, value in attributes.items()
+        ]))
 
         print()
     except Exception as e:
